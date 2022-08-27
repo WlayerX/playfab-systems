@@ -2,18 +2,7 @@
   <h3 align="center">PlayFab Examples</h3>
 
   <p align="center">PlayFab scripts you can use in your Unity projects
-    
-    <br />
-    <a href="https://github.com/WlayerX/playfab-systems"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/WlayerX/playfab-systems">View Demo</a>
-    ·
-    <a href="https://discord.gg/vUHUfrzgq5">Report Bug</a>
-    
-  </p>
-</div>
-
+   
 
 ## Roadmap
 

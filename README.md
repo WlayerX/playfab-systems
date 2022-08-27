@@ -22,4 +22,4 @@ Your Name - [@SemihTaha_](https://twitter.com/@SemihTaha_) - wlayerx@gmail.com
 
 Discord Server - [WlayerX.cs](https://discord.gg/vUHUfrzgq5) - 
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">Back To Top</a>)</p>

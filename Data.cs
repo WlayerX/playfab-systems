@@ -1,52 +1,61 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 using PlayFab;
 using PlayFab.ClientModels;
-
 using TMPro;
 using UnityEngine.UI;
 
-public class Data : MonoBehaviour
+public class OyuncuVerileri : MonoBehaviour
 {
-    [Header("Yazılar")]
-    [SerializeField] TMP_Text Yazı;
+    [Header("UI Elementleri")]
+    [SerializeField] TMP_Text yazı;
 
-    public void GetUserData()
+    // Oyuncu verilerini PlayFab'dan çekme
+    public void OyuncuVerileriniAl()
     {
-        PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnDataReceived, OnError);
+        PlayFabClientAPI.GetUserData(new GetUserDataRequest(), OnVeriAlındı, OnHata);
     }
 
-    void OnDataReceived(GetUserDataResult result)
+    // Oyuncu verileri başarıyla alındığında çağrılan fonksiyon
+    void OnVeriAlındı(GetUserDataResult sonuç)
     {
-        Debug.Log("User Data Alındı.");
-        if (result.Data != null)
+        Debug.Log("Oyuncu Verileri Alındı.");
+        if (sonuç.Data != null && sonuç.Data.ContainsKey("DenemeData"))
         {
-            Yazı.text = result.Data["DenemeData"].Value;
+            // Eğer "DenemeData" adında bir veri varsa, UI üzerinde göster
+            yazı.text = sonuç.Data["DenemeData"].Value;
+        }
+        else
+        {
+            Debug.LogWarning("DenemeData bulunamadı veya değeri boş.");
         }
     }
 
-
-    public void SaveData()
+    // Oyuncu verilerini PlayFab'a kaydetme
+    public void VeriKaydet()
     {
-        var request = new UpdateUserDataRequest
+        var istek = new UpdateUserDataRequest
         {
             Data = new Dictionary<string, string>
             {
                 {"DenemeData", "İstediğiniz Yazı" }
             }
         };
-        PlayFabClientAPI.UpdateUserData(request, OnDataSend, OnError);
+        PlayFabClientAPI.UpdateUserData(istek, OnVeriGönderildi, OnHata);
     }
 
-    void OnDataSend(UpdateUserDataResult result)
+    // Oyuncu verileri başarıyla kaydedildiğinde çağrılan fonksiyon
+    void OnVeriGönderildi(UpdateUserDataResult sonuç)
     {
-
+        Debug.Log("Oyuncu Verileri Başarıyla Gönderildi.");
+        // Buraya isteğe bağlı ek işlemler eklenebilir.
     }
 
-    void OnError(PlayFabError error)
+    // PlayFab'dan gelen hataları işleme
+    void OnHata(PlayFabError hata)
     {
-        
+        Debug.LogError("PlayFab Hatası: " + hata.ErrorMessage);
+        // Hata durumlarına özel işlemler buraya eklenebilir.
     }
 }

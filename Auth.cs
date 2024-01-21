@@ -6,76 +6,105 @@ using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine.SceneManagement;
 
-public class Auth : MonoBehaviour
+/// <summary>
+/// Kullanıcı kimlik doğrulama ve PlayFab servisleri kullanılarak kayıt işlemlerini yönetir.
+/// </summary>
+public class AuthenticationManager : MonoBehaviour
 {
-    public TextMeshProUGUI TopText;
-    public TextMeshProUGUI MessageText;
+    public TextMeshProUGUI topText;
+    public TextMeshProUGUI messageText;
 
-    public TMP_InputField EmailLoginInput;
-    public TMP_InputField PasswordLoginput;
-    public GameObject LoginPage;
+    public TMP_InputField emailLoginInput;
+    public TMP_InputField passwordLoginInput;
+    public GameObject loginPage;
 
-    public TMP_InputField UsernameRegisterInput;
-    public TMP_InputField EmailRegisterInput;
-    public TMP_InputField PasswordRegisterinput;
-    public GameObject RegisterPage;
+    public TMP_InputField usernameRegisterInput;
+    public TMP_InputField emailRegisterInput;
+    public TMP_InputField passwordRegisterInput;
+    public GameObject registerPage;
 
+    /// <summary>
+    /// Başlangıçta kimlik doğrulama işlemini başlatır.
+    /// </summary>
     private void Start()
     {
-        LogineGit();
+        InitiateLogin();
     }
 
+    /// <summary>
+    /// Yeni bir kullanıcı için kayıt işlemini başlatır.
+    /// </summary>
     public void RegisterUser()
     {
         var request = new RegisterPlayFabUserRequest
         {
-            DisplayName = UsernameRegisterInput.text,
-            Email = EmailRegisterInput.text,
-            Password = PasswordRegisterinput.text,
+            DisplayName = usernameRegisterInput.text,
+            Email = emailRegisterInput.text,
+            Password = passwordRegisterInput.text,
 
             RequireBothUsernameAndEmail = false
         };
 
-        PlayFabClientAPI.RegisterPlayFabUser(request, OnregisterSucces, OnError);
+        PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterSuccess, OnError);
     }
+
+    /// <summary>
+    /// Mevcut bir kullanıcı için giriş işlemini başlatır.
+    /// </summary>
     public void Login()
     {
         var request = new LoginWithEmailAddressRequest
         {
-            Email = EmailLoginInput.text,
-            Password = PasswordLoginput.text,
+            Email = emailLoginInput.text,
+            Password = passwordLoginInput.text,
         };
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSucces, OnError);
+        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnError);
     }
 
-    private void OnLoginSucces(LoginResult result)
+    /// <summary>
+    /// Başarılı bir giriş için geri çağrı.
+    /// </summary>
+    private void OnLoginSuccess(LoginResult result)
     {
-        MessageText.text = "Giriþ Yapýlýyor";
+        messageText.text = "Giriş başarılı";
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
-    private void OnError(PlayFabError Error)
+    /// <summary>
+    /// Kimlik doğrulama sırasında bir hata için geri çağrı.
+    /// </summary>
+    private void OnError(PlayFabError error)
     {
-        MessageText.text = Error.ErrorMessage;
-        Debug.Log("Hata! " + Error.ErrorDetails);
+        messageText.text = error.ErrorMessage;
+        Debug.Log("Hata! " + error.ErrorDetails);
     }
 
-    private void OnregisterSucces(RegisterPlayFabUserResult Result)
+    /// <summary>
+    /// Başarılı bir kullanıcı kaydı için geri çağrı.
+    /// </summary>
+    private void OnRegisterSuccess(RegisterPlayFabUserResult result)
     {
-        MessageText.text = "Hesap oluþturuldu.";
-        LogineGit();
+        messageText.text = "Hesap oluşturuldu.";
+        InitiateLogin();
     }
 
-    public void LogineGit()
+    /// <summary>
+    /// Arayüzü giriş sayfasına geçirir.
+    /// </summary>
+    public void InitiateLogin()
     {
-        LoginPage.SetActive(true);
-        RegisterPage.SetActive(false);
-        TopText.text = "Giriþ";
+        loginPage.SetActive(true);
+        registerPage.SetActive(false);
+        topText.text = "Giriş";
     }
-    public void RegistereGit()
+
+    /// <summary>
+    /// Arayüzü kayıt sayfasına geçirir.
+    /// </summary>
+    public void InitiateRegistration()
     {
-        LoginPage.SetActive(false);
-        RegisterPage.SetActive(true);
-        TopText.text = "Kayýt Ol";
+        loginPage.SetActive(false);
+        registerPage.SetActive(true);
+        topText.text = "Kayıt Ol";
     }
 }

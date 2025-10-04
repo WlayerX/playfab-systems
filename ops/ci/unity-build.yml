@@ -1,0 +1,22 @@
+name: Unity Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      UNITY_VERSION: 2021.3.24f1
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Unity
+        uses: game-ci/unity-setup@v2
+        with:
+          unityVersion: ${{ env.UNITY_VERSION }}
+      - name: Run Unity build script
+        run: |
+          chmod +x ./scripts/build-client.sh
+          ./scripts/build-client.sh

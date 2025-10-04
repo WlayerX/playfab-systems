@@ -1,0 +1,9 @@
+{
+  "name": "playfab-cloudscripts",
+  "version": "0.1.0",
+  "description": "CloudScript helpers for PlayFab",
+  "scripts": {
+    "test": "echo \\"No server tests configured yet\\""
+  },
+  "dependencies": {}
+}

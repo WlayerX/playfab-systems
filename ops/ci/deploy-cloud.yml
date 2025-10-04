@@ -1,0 +1,20 @@
+name: Deploy CloudScript
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'server-functions/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy CloudScript (placeholder)
+        env:
+          PLAYFAB_TITLE_ID: ${{ secrets.PLAYFAB_TITLE_ID }}
+          PLAYFAB_DEV_SECRET: ${{ secrets.PLAYFAB_DEV_SECRET }}
+        run: |
+          chmod +x ./scripts/deploy-cloud.sh
+          ./scripts/deploy-cloud.sh

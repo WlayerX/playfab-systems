@@ -161,16 +161,7 @@ sequenceDiagram
 
 ## 📄 License
 
-MIT License © 2025 Your Company
-
----
-
-## 💬 Contributors
-
-- **Lead Developer:** [Your Name]
-- **Backend Engineer:** [Name]
-- **Client Developer:** [Name]
-- **DevOps:** [Name]
+MIT License © 2025 Pyrena Software
 
 ---
 
